@@ -1,0 +1,64 @@
+{
+  "title": "Agency (CircleCI Modified)",
+  "name": "startbootstrap-agency-modded-circleci",
+  "version": "1.0.0",
+  "description": "Start Bootstrap - Agency Theme, modified for CircleCI demo",
+  "scripts": {
+    "test": "NODE_NO_WARNINGS=1 testcafe \"chrome:headless\",\"firefox:headless\" test/**/*",
+    "runTests": "NODE_NO_WARNINGS=1 testcafe \"chrome:headless\",\"firefox:headless\" -r spec,xunit:/tmp/test-results/testcafe/results.xml",
+    "start": "gulp watch",
+    "build": "docker build ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvxt/circleci-se-challenge.git"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "javascript",
+    "circleci",
+    "testcafe",
+    "html",
+    "css",
+    "sass",
+    "html",
+    "responsive",
+    "theme",
+    "template"
+  ],
+  "author": "Michael Vinh Xuan Thanh",
+  "contributors": [
+    "Start Bootstrap",
+    "David Miller (http://davidmiller.io/)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mvxt/circleci-se-challenge/issues"
+  },
+  "homepage": "https://github.com/mvxt/circleci-se-challenge#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.8.1",
+    "axios": "^0.19.0",
+    "bootstrap": "4.3.1",
+    "fstream": "^1.0.12",
+    "jquery": "3.4.0",
+    "jquery.easing": "^1.4.1"
+  },
+  "devDependencies": {
+    "browser-sync": "2.26.3",
+    "del": "4.0.0",
+    "gulp": "4.0.0",
+    "gulp-autoprefixer": "6.0.0",
+    "gulp-clean-css": "4.0.0",
+    "gulp-header": "2.0.7",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "1.4.0",
+    "gulp-sass": "4.0.2",
+    "gulp-uglify": "3.0.2",
+    "http-server": "^0.11.1",
+    "lodash": "^4.17.13",
+    "merge-stream": "^1.0.1",
+    "testcafe": "^1.0.0"
+  }
+}
