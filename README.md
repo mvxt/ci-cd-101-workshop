@@ -1,5 +1,5 @@
 # CI/CD 101 Workshop Repository 
-Simple Node.js project and static website to demonstrate basic CI/CD w/ CircleCI.
+Simple Node.js project and static website to demonstrate basic CI/CD w/ CircleCI. The presentation is not needed to use this repository, but you can [view those slides here](https://docs.google.com/presentation/d/1VQbs8DrNX0rqTHNwFmVzve49LNNiu1MuXs0Hu8Ppbk8)
 
 ## Prerequisites
 - [Github](https://github.com)
