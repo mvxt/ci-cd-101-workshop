@@ -1,0 +1,23 @@
+#######################
+# Workflow Definitions
+#######################
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+    - test
+
+#######################
+# Job Definitions
+#######################
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: circleci/node:10.15.1-browsers
+    working_directory: ~/ci-cd-101-workshop
+
+    steps:
+      - checkout
+      - run: echo "Hello World!"
+
