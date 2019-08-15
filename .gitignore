@@ -63,5 +63,6 @@ typings/
 # Tarballs
 *.tar.gz
 
-# Other dirs
+# Other dirs and files
 vendor
+.DS_Store
