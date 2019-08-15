@@ -51,7 +51,7 @@ Note that this tutorial shows how to do everything inline on Github, but you can
     ```        
     - `version: 2.1` dictates the version of configuration, and 2.1 is the current default.
     - We're defining a job called "test", and the first thing we'll define is [the executor](https://circleci.com/docs/2.0/executor-types/), which is the environment you do work in. We have options for Docker, Linux VM, Mac VM, and Windows VM, and we'll choose Docker for now.
-    - we're using a convenience image containing Node.js and browsers for testing. See the list of [convenience images here](https://circleci.com/docs/2.0/circleci-images). You could, however, [define your own custom images](https://circleci.com/docs/2.0/custom-images/).
+    - We're using a convenience image containing Node.js and browsers for testing. See the list of [convenience images here](https://circleci.com/docs/2.0/circleci-images). You could also [define your own custom images](https://circleci.com/docs/2.0/custom-images/).
     - By default, CircleCI will use `~/project` if you don't specify a `working_directory`. We recommend defining it so you explicitly know and set where your source code lives inside the environment.
     - The `steps` section defines what actions you actually do in the job. `checkout` checks out your repository, and a `run:` step is any Bash command you want to run.
 1. By now, your config file should look like this:
