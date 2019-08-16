@@ -9,8 +9,10 @@ COPY ./etc/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy website files
 COPY index.html \
-  dirs.tar.gz \
+  css \
+  img \
+  js \
+  mail \
+  scss \
   ./
 
-# Untar the tarball
-RUN tar -xzf dirs.tar.gz
