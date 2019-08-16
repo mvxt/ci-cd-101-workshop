@@ -15,7 +15,7 @@ This section shows how to setup a basic CI/CD pipeline with this project and Cir
 - Automatically build and push a new Docker image if/when tests pass only on `master` branch
 - Setup nightly builds on the `development` branch
 
-Note that this tutorial shows how to do everything inline on Github, but you can clone the repository and edit / push files from your local environment if that's preferable. Instructions on [how to write files/folders inline on Github here](https://stackoverflow.com/questions/18773598/creating-folders-inside-github-com-repo-without-using-git).
+Note that this tutorial can be done entirely inline on Github, but you can clone your forked repository and edit / push files from your local environment if that's preferable. Instructions on [how to write files/folders inline on Github here](https://stackoverflow.com/questions/18773598/creating-folders-inside-github-com-repo-without-using-git).
 
 1. After you've forked the repository, go ahead and create a new file `.circleci/config.yml`. Configuration for CircleCI lives in a file called `config.yml` inside a `.circleci` folder at the top level of your repo.
 
