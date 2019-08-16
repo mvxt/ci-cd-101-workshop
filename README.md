@@ -149,7 +149,7 @@ Note that this tutorial can be done entirely inline on Github, but you can clone
                 - mail
                 - scss
     ```
-    - In the changes above, we add a `persist_to_workspace` declaration with the root as the current working directory
+    - In the changes above, we add a `persist_to_workspace` declaration with the root as the current working directory.
     - In `paths`, we explicitly define which paths or files we want to add to the workspace. This is recommended over doing a blanket add of `.`, which will persist everything in the current folder - an inefficient use of workspaces.
     - Of particular importance, we will want to include all the directories containing website assets as well as the `Dockerfile` and `etc` folder. These are needed for the nginx container.
 
@@ -186,7 +186,7 @@ Note that this tutorial can be done entirely inline on Github, but you can clone
     - The final run step is actually logging into Docker and pushing both of the tags, using the same variables as before along with two new ones for your login information.
 
 1. You'll want to go into your Project Settings > Environment Variables > Add Variable. You'll need to add 3 variables:
-    - `DOCKER_TAG`: This is the name of your Dockerhub repository. For example, mine is `mikeyvxt/cd-cd-101-workshop`.
+    - `DOCKER_TAG`: This is the name of your Dockerhub repository. For example, mine is `mikeyvxt/ci-cd-101-workshop`.
     - `DOCKER_LOGIN`: This will be your Dockerhub username.
     - `DOCKER_PWD`: This will be your Dockerhub password.
 
@@ -203,12 +203,119 @@ Note that this tutorial can be done entirely inline on Github, but you can clone
           - build-push:
               requires:
                 - test
+              filters:
+                branches:
+                  only: master
 
     ... // Job Definitions below
     ```
     - We added `build-push` to the list of jobs we want to run in our `build-deploy` pipeline.
     - We also define a `requires` parameter below it, indicating that `build-push` must only run if `test` passes.
-1. Push your new config file and watch the magic happen!
+    - Finally we define a filter. We don't want to build and push a new image on _every_ commit (default), just for changes on the `master` branch. So we define that here.
+
+1. By now, your config file should look like below. Push your new config file and watch the magic happen!
+    ```
+    #######################
+    # Workflow Definitions
+    #######################
+    workflows:
+      version: 2
+      build-deploy:
+        jobs:
+          - test
+          - build-push:
+              requires:
+                - test
+              filters:
+                branches:
+                  only: master
+
+    #######################
+    # Job Definitions
+    #######################
+    version: 2.1
+    jobs:
+      test:
+        docker:
+          - image: circleci/node:10.15.1-browsers
+        working_directory: ~/ci-cd-101-workshop
+
+        steps:
+          - checkout
+          - run:
+              name: Install dependencies
+              command: yarn
+          - run:
+              name: Run tests
+              command: yarn test
+          - persist_to_workspace:
+              root: .
+              paths:
+                - Dockerfile
+                - etc
+                - css
+                - img
+                - index.html
+                - js
+                - mail
+                - scss
+
+      build-push:
+        docker:
+          - image: circleci/node:10.15.1-browsers
+        working_directory: ~/ci-cd-101-workshop
+
+        steps:
+          - attach_workspace:
+              at: .
+          - setup_remote_docker
+          - run:
+              name: Build and tag the Docker image
+              command: docker build -t $DOCKER_TAG -t ${DOCKER_TAG}:${CIRCLE_SHA1} .
+          - run:
+              name: Login to Dockerhub and push
+              command: |
+                echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+                docker push $DOCKER_TAG
+                docker push ${DOCKER_TAG}:${CIRCLE_SHA1}
+    ```
+1. Almost done! One last piece of functionality is that we want to run nightly builds on our `develop` branch. This is (usually) the branch that changes on a daily basis in many companies, while the `master` branch tends to only change upon releases of major changes. Add the following to your config in the `workflows` section:
+    ```
+    #######################
+    # Workflow Definitions
+    #######################
+    workflows:
+      version: 2
+      build-deploy:
+        jobs:
+          - test
+          - build-push:
+              requires:
+                - test
+              filters:
+                branches:
+                  only: master
+
+      nightly:
+        jobs:
+          - test
+        triggers:
+          - schedule:
+              cron: 0 0 * * *
+              filters:
+                branches:
+                  only: develop
+
+    ... // Job definitions below
+    ```
+    - We've added a new workflow called "nightly". It only runs the `test` job, and it runs it based on a CRON tab, filtered to only run on the `develop` branch.
+1. Commit & push these changes, and you're all set! We've accomplished the goals set forth at the beginning of this tutorial. Where can you go from here?
+    - There are various ways you could [optimize](https://circleci.com/docs/2.0/optimizations/) your builds and your configuration.
+    - Try onboarding your own, personal projects to CircleCI! See the various [example projects](https://circleci.com/docs/2.0/example-configs/#section=configuration), [config cookbooks](https://circleci.com/docs/2.0/configuration-cookbook/#section=configuration), and [sample use cases](https://circleci.com/docs/2.0/tutorials/#section=configuration) we have in our docs.
+    - Consult the [complete config reference](https://circleci.com/docs/2.0/configuration-reference/#section=configuration) for all of the available configuration our platform offers.
+    - Considering CircleCI for your team? [Reach out to us](https://circleci.com/contact/), and we'll discuss if CircleCI is the right fit for your team!
+
+Thanks for taking the time to attend the workshop and/or browse this tutorial. Questions, comments, and bug reports welcome in the Issues tab.
 
 ## Local Machine
 ### Setup & Run
