@@ -39,7 +39,7 @@
   "homepage": "https://github.com/mvxt/circleci-se-challenge#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.8.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "4.3.1",
     "fstream": "^1.0.12",
     "jquery": "3.5.0",
